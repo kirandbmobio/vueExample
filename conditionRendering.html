@@ -1,0 +1,121 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <template v-if="awesome">
+            <h1>Title</h1>
+            <p>Paragraph 1</p>
+            <p>Paragraph 2</p>
+        </template>
+
+        <h1 v-if="awesome">Vue is awesome!</h1>
+        <h1 v-else>Oh no 😢</h1>
+        <div v-if="awesome">
+            <h1>
+                kirankumar
+            </h1>
+            <p>kirankumar</p>
+        </div>
+        <div v-else>
+            bolaniya
+        </div>
+        <p v-if="type === 'A' || type === 'a'">
+            A selected
+        </p>
+        <p v-else-if="type === 'B' || type === 'b'">
+            B selected
+        </p>
+        <p v-else-if="type === 'C' || type === 'c'">
+            C selected
+        </p>
+        <p v-else>
+            no selected
+        </p>
+        <div v-for="(student,index) in students">
+            {{type}}-{{index}}-{{student.name}} {{student.rollnumber}}
+        </div>
+        <div v-for="(student,index) of students">
+            {{index}}-{{student.name}} {{student.rollnumber}}
+        </div>
+        <ul v-for="(studObject,name,index) in studentObject">
+            <li>
+                {{index}}-{{name}}-{{studObject}}
+            </li>
+        </ul>
+        <p>Getting by computed</p>
+        <li v-for="n in evenNumbers">{{ n }}</li>
+        <p>Getting by methods</p>
+        <li v-for="n in even(numbers)">{{ n }}</li>
+
+        <p>getting with range of 10</p>
+        <div>
+            <span v-for="n in 10">{{ n }} </span>
+        </div>
+        <ul v-if="students.length">
+            <li v-for="student in students">
+                {{ student.name }}
+            </li>
+        </ul>
+        <p v-else>No todos left!</p>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                awesome: true,
+                type: 'b',
+                students: [
+                    { name: "kirankumar", rollnumber: 124 },
+                    { name: "jigar" }
+                ],
+                studentObject: {
+                    name: "kdkumar",
+                    age: 12
+                },
+                numbers: [1, 2, 3, 4, 5, 6, 7]
+            },
+            computed: {
+                evenNumbers: function () {
+                    return this.numbers.filter(function (number) {
+                        return number % 2 === 0
+                    })
+                }
+            },
+            methods: {
+                even: function (numbers) {
+                    return numbers.filter(function (number) {
+                        return number % 2 === 0
+                    })
+                }
+            }
+        });
+        app.studentObject = Object.assign({}, app.studentObject, {
+            age: 27,
+            favoriteColor: 'Vue Green'
+        })
+        app.$set(app.studentObject, 'friend', 'jigriyar')
+        Object.assign(app.studentObject, {
+            abc: "abc",
+            dob: "30/10/1994"
+        })
+        var vm = new Vue({
+            data: {
+                items: ['a', 'b', 'c']
+            }
+        })
+        vm.items[1] = 4
+        Vue.set(vm.items, 1, 4)
+        vm.items.splice(1, 1, 4);
+        // console.log(vm.items)
+
+
+    </script>
+</body>
+
+</html>

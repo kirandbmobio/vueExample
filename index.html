@@ -1,0 +1,149 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        {{ message }}
+    </div>
+    <div id="app-2">
+        <span v-bind:title="message">
+            Hover your mouse over me for a few seconds
+            to see my dynamically bound title!
+        </span>
+    </div>
+    <div id="app-3">
+        <span v-if="seen">
+            Now you see me
+        </span>
+    </div>
+    <div id="app-4">
+        <span v-for="names in name">
+            {{ names.text }}
+        </span>
+    </div>
+    <div id="app-5">
+        <p>{{message}}</p>
+        <button v-on:click="myMessage">
+            hello there this is click by you
+        </button>
+    </div>
+    <div id="app-6">
+        <span v-bind:title="message">Name:</span><input v-model="message" />
+    </div>
+    <div id="app-7">
+
+    </div>
+    <ol>
+        <new-todo></new-todo>
+    </ol>
+    <div id="app-9">
+        <p>{{ foo }}</p>
+        <!-- this will no longer update `foo`! -->
+        <button v-on:click="foo = 'baz'">Change it</button>
+    </div>
+    <div id="example">
+        <p>hello this kiran kumar</p>
+    </div>
+
+    <script>
+        var app6 = new Vue({
+            el: '#app-6',
+            data: {
+                message: 'KIranKumar'
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!'
+            }
+        })
+        var app2 = new Vue({
+            el: '#app-2',
+            data: {
+                message: 'You loaded this page on ' + new Date().toLocaleString()
+            }
+        })
+        var app3 = new Vue({
+            el: '#app-3',
+            data: {
+                seen: true
+            }
+        })
+        var app4 = new Vue({
+            el: '#app-4',
+            data: {
+                name: [
+                    { text: 'abc' },
+                    { text: 'sdsf' }
+                ]
+            }
+        })
+        var app5 = new Vue({
+            el: '#app-5',
+            data: {
+                message: 'hello good evening'
+            },
+            methods: {
+                myMessage: function () {
+                    this.message = this.message.split('').reverse().join('');
+                }
+            }
+        })
+        Vue.component('new-todo', {
+            props: ['todo'],
+            template: '<li>{{todo.text}}</li>'
+        })
+
+        let data = {
+            a: 123
+        }
+        let vm = new Vue({
+            data: data
+        })
+        if (vm.a == data.a) {
+            console.log("true");
+        }
+
+        vm.a = 124;
+        vm.a = 1278;
+        vm.b = 234;
+
+        console.log(vm.a);
+        console.log(vm.b);
+
+        var obj = {
+            foo: 'bar'
+        }
+
+        Object.freeze(obj)
+
+        new Vue({
+            el: '#app-9',
+            data: obj
+        })
+
+        var data1 = { a: 1 }
+        var vm1 = new Vue({
+            el: '#example',
+            data: data1
+        })
+
+        console.log(vm1.$data === data1) // => true
+        vm1.$el === document.getElementById('example') // => true
+
+        // $watch is an instance method
+        vm1.$watch('a', function (newValue, oldValue) {
+            
+            console.log(oldValue);
+            // This callback will be called when `vm.a` changes
+        })
+
+    </script>
+</body>
+
+</html>

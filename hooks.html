@@ -1,0 +1,145 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        {{favourite}}
+        {{fullname}}
+        <span v-bind:title="message">{{message + 1 }} </span>
+        {{ message.split('').reverse().join('') }}
+        <p>Helo {{span}}</p>
+        <p v-html="span"></p>
+        <a v-bind:href="url"> fb </a>
+        <a v-on:click="doSomething">click me to alert using vue js </a>
+        <div v-bind:id="dynamicId">hello</div>
+        <button v-bind:disabled="isButtonDisabled">Button</button>
+        <span v-once>This will never change {{message}}</span>
+        <a v-bind:[someAttr]="value"> ... </a>
+        <form v-on:submit.prevent="onSubmit"> ... </form>
+
+
+        <p>Original message: "{{ message }}"</p>
+        <p>Computed reversed message: "{{ reverseMessage }}"</p>
+
+        <p>
+            Ask a question yes/no :
+            <input v-model="question">
+        </p>
+        <p>{{answer}}</p>
+        <div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">hello</div>
+        <div class="static active hasError">therere</div>
+        <div v-bind:class="classObject">abc</div>
+        <div v-bind:class="[activeClass, errorClass]">abc</div>
+        <div v-bind:class="[isActive ? activeClass : '', errorClass]">abc</div>
+        <div v-bind:class="[{ active: isActive }, errorClass]">abc</div>
+        <my-component class="baz boo">abc</my-component>
+        <p class="foo bar baz boo">Hi</p>
+        <my-component v-bind:class="{ active: isActive }">abc</my-component>
+        <p class="foo bar active">Hi</p>
+        <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">abc</div>
+        <div v-bind:style="styleObject">abc</div>
+        <div v-bind:style="[baseStyles, overridingStyles]">abc</div>
+        <div v-bind:style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">abc</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script>
+        Vue.component('my-component', {
+            template: '<p class="foo bar">Hi</p>'
+        })
+
+        let number = 1;
+        let app = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello there',
+                span: '<span style="color:blue">This is kiran kumar</span>',
+                url: "http://www.facebook.com/kiran.bolaniya",
+                doSomething: function () {
+                    alert(number++);
+                },
+                first_name: "kirakumar",
+                last_name: "bolaniya",
+                // fullname: "kirankumar bolaniya",
+                pet: 'dog',
+                movie: 'Lord of the ring',
+                question: '',
+                answer: 'I cannot give you an answer until you ask a question!',
+                isActive: true,
+                hasError: false,
+                error: null,
+                classObject: {
+                    active: true,
+                    'text-danger': false
+                },
+                activeClass: 'active',
+                errorClass: 'text-danger',
+                activeColor: 'red',
+                fontSize: 30,
+                styleObject: {
+                    color: 'red',
+                    fontSize: '13px'
+                }
+            },
+            watch: {
+                first_name: function (val) {
+                    this.fullname = val + ' ' + this.last_name
+                },
+                last_name: function (val) {
+                    this.fullname = this.first_name + ' ' + val
+                },
+                question: function (newQuestion, oldQuestion) {
+                    this.answer = 'waiting for you to stop typing'
+                    this.debounceGetAnswer();
+                }
+            },
+            computed: {
+                classObject: function () {
+                    return {
+                        active: this.isActive && !this.error,
+                        'text-danger': this.error && this.error.type === 'fatal'
+                    }
+                },
+                favourite: {
+                    get: function () {
+                        return this.pet + ' ' + this.movie;
+                    },
+                    set: function (newValue) {
+                        let names = newValue.split(' ');
+                        this.pet = names[0];
+                        this.movie = names[names.length - 1]
+                    }
+                },
+                fullname: function () {
+                    return this.first_name + ' ' + this.last_name
+                },
+                reverseMessage: function () {
+                    return this.message.split('').reverse().join('');
+                }
+            },
+            created: function () {
+                console.log('message is: ' + this.message);
+                this.debounceGetAnswer = _.debounce(this.getAnswer, 500);
+            },
+            methods: {
+                getAnswer: function () {
+                    let vm = this
+                    axios.get('https://yesno.wtf/api')
+                        .then(function (response) {
+                            vm.answer = _.capitalize(response.data.answer)
+                        })
+                        .catch(err => {
+                            vm.answer = "error could not reach the api " + err
+                        })
+
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>
