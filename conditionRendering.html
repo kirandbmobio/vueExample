@@ -1,12 +1,16 @@
 <html>
 
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="vue.js"></script>
 </head>
 
 <body>
 
     <div id="app">
+        <p v-if="show">You can see me!</p>
+        <p v-else>can you really see me!</p>
+        <p>Do you also see me?</p>
+        <button @click="show=!show">Switch</button>
         <template v-if="awesome">
             <h1>Title</h1>
             <p>Paragraph 1</p>
@@ -42,20 +46,23 @@
         <div v-for="(student,index) of students">
             {{index}}-{{student.name}} {{student.rollnumber}}
         </div>
+
         <ul v-for="(studObject,name,index) in studentObject">
             <li>
                 {{index}}-{{name}}-{{studObject}}
             </li>
         </ul>
+
         <p>Getting by computed</p>
         <li v-for="n in evenNumbers">{{ n }}</li>
         <p>Getting by methods</p>
         <li v-for="n in even(numbers)">{{ n }}</li>
-
+        <button @click="numbers.push('12')">Add new</button>
         <p>getting with range of 10</p>
         <div>
             <span v-for="n in 10">{{ n }} </span>
         </div>
+
         <ul v-if="students.length">
             <li v-for="student in students">
                 {{ student.name }}
@@ -68,6 +75,7 @@
         let app = new Vue({
             el: '#app',
             data: {
+                show: true,
                 awesome: true,
                 type: 'b',
                 students: [

@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <script src="vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-on:input="changeMessage">
+        <p>{{message}}</p>
+        <button v-on:click="increase(3,$event)">click me</button>
+        <p>{{counter}}</p>
+        <button v-on:click="counter++">click me</button>
+        <p>{{counter*2 > 10 ? 'Greate than 10' : 'Less than 10'}}</p>
+        <p v-on:mousemove="changeCoordinates">
+            Coordinates {{x}} / {{y}}
+            -<span v-on:mousemove.stop="">DEAD-SPOT</span>
+        </p>
+        <input type="text" v-on:keyup.enter.space="alert">
+        <input type="text" v-model="name">
+        <p>{{name}}</p>
+
+        <button v-on:click="counter1++">increase</button>
+        <button v-on:click="counter1--">decrease</button>
+        <button v-on:click="anotherCounter++">increase second</button>
+        <p>{{counter1}} | {{anotherCounter}}</p>
+        <p>{{result()}} | {{output}}</p>
+        <button @click="changeLink">Click to change link</button>
+        <a :href="link">Link</a>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                name: 'Kiran',
+                message: 'Hello world',
+                counter: 0,
+                counter1: 0,
+                anotherCounter: 0,
+                x: 0,
+                y: 0,
+                link: 'http://www.facebook.com'
+            },
+            computed: {
+                output: function () {
+                    return this.counter1 > 5 ? 'Greate than 5' : 'less than 5';
+                }
+            },
+            watch: {
+                counter1: function (value) {
+                    let vm = this;
+                    setTimeout(function () {
+                        vm.counter1 = 0
+                    }, 2000)
+                }
+            },
+            methods: {
+                result() {
+
+                    return this.counter1 > 5 ? 'Greate than 5' : 'less than 5';
+                },
+                changeLink: function () {
+                    this.link = "http://www.google.com";
+                },
+                // stop: function (event) {
+                //     event.stopPropagation();
+                // },
+                alert: function () {
+                    alert('Alert');
+                },
+                changeMessage: function (event) {
+                    this.message = event.target.value;
+                },
+                increase: function (step, event) {
+                    this.counter += step;
+                },
+                changeCoordinates: function (event) {
+                    this.x = event.clientX;
+                    this.y = event.clientY;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
