@@ -1,0 +1,98 @@
+<html>
+
+<head>
+    <script src="vue.js">
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <div :style="{color:'blue',backgroundColor:'yellow'}">using v-bind we can add class ,style, title,href etc .
+            (Attributes)</div>
+        <input type="text" v-model="title" />
+        <div v-for="students in student">
+            {{students}}
+        </div>
+        <p>{{title}}</p>
+        <p :title="now">Time </p>
+
+        <span>Multiline message is:</span>
+        <p style="white-space: pre-line;">{{ message }}</p>
+        <br>
+        <textarea v-model="message" placeholder="add multiple lines"></textarea>
+        <kiran></kiran>
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{ checked }}</label>
+
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span><br>
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>Picked: {{ picked }}</span><br>
+        <select v-model="selected">
+            <option disabled value="">Please select one</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+        <br>
+        <select v-model="multipleSelect" multiple>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <br>
+
+        <span>Selected: {{ multipleSelect }}</span>
+        <br>
+        <input v-model.lazy="msg">
+        <p>{{msg}}</p>
+        <br>
+        <input v-model.number="age" type="number">
+        <br>
+        <input v-model.trim="msg">
+        <p>{{msg}}</p>
+    </div>
+    <script>
+        var MyComponent = Vue.extend({
+            template: '<div>A custom component!</div>'
+        })
+        Vue.component('kiran', MyComponent);
+
+        new Vue({
+            el: '#app',
+            data: {
+                title: 'Kirankumar',
+                student: ["kiran", "jigar"],
+                message: 'add multiple lines here',
+                checked: false,
+                checkedNames: [],
+                picked: '',
+                selected: '',
+                multipleSelect: '',
+                msg: '        hello ',
+                age: 23
+
+            },
+            computed: {
+                now: function () {
+                    return Date.now()
+                }
+            },
+
+        })
+    </script>
+</body>
+
+</html>
